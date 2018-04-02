@@ -1,0 +1,17 @@
+{
+  "name": "rxjstut",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "http-server -o --cors"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "rxjs": "^5.5.8"
+  },
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  }
+}

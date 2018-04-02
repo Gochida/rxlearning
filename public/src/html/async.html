@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Async Part 1</title>
+  <link rel="stylesheet" href="../css/async.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+
+
+  
+  <h1>
+    Async Part 1 
+  </h1>
+  <h2><a href="../../index.html">Home</a> - <a href="./async2.html">To Part 2</a></h2>
+  <a href="https://egghead.io/lessons/rxjs-use-rxjs-async-requests-and-responses">Associated Video</a>
+  <p>
+    <a href="http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#static-method-of">of</a>
+    <a href="http://reactivex.io/documentation/operators/flatmap.html">flatMap</a> <a href="https://namitamalik.github.io/Map-vs-FlatMap/">(see also)</a>
+  </p>
+  <pre style=""><code style="overflow-wrap: break-word">
+      // create a source of urls to 'get' with jQuery.
+      var requestStream = Rx.Observable.of('https://api.github.com/users')
+
+      // use flatMap to create a 'promise as observable' for each url from requestStream
+      // flatMap is significant here, It basically merges an observable sequence of observable sequences into a single observable sequence.
+      var responseStream = requestStream.flatMap(requestUrl =>
+          Rx.Observable.fromPromise(jQuery.getJSON(requestUrl))
+        )
+      
+      // subscribe to that stream of 'promises as observables'
+      // flat map flattens all observables output into one observable (responseStream)
+      // so we just process responseStream's output - which is the result from 'get'
+      responseStream.subscribe(response => {
+          console.log(response) // print JS to console
+          // below is simply code to pretty-print JSON to the HTML document
+          var usersElement = document.getElementById('users'); // get the users code block
+          usersElement.textContent = JSON.stringify(response, null, 2)
+          hljs.highlightBlock(usersElement) // highlight using highlight.js
+        })
+  </code></pre>
+
+  <div class="container">
+    <pre><code id="users" class="json">
+
+    </code></pre>>
+  </div>
+  <script src="https://code.jquery.com/jquery-1.7.2.js"></script>
+  <script src="https://unpkg.com/rxjs@5.4.3/bundles/Rx.min.js"></script>
+  <script src="../js/async.js"></script>
+</body>
+
+</html>
